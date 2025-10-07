@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusConnect</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+:root {
+  --p: #2563eb;   
+  --s: #f9fafb;   
+  --a: #10b981;   
+  --e: #ef4444;   
+  --b: #ffffff;   
+  --r: 16px;      
+  --shadow: 0 6px 16px rgba(0,0,0,.08);
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(to right, #eef2ff, var(--b));
+  color: #374151; /* Gris más elegante */
+  line-height: 1.6;
+}
+
+.page {
+  display: none;
+  animation: fade .4s ease-in-out;
+}
+.page.active {
+  display: block;
+}
+@keyframes fade {
+  from {opacity: 0; transform: translateY(10px)}
+  to {opacity: 1; transform: translateY(0)}
+}
+
+.card {
+  max-width: 1100px;
+  margin: 60px auto;
+  background: var(--b);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 30px;
+  transition: var(--transition);
+}
+/* HEADER UNIVERSITARIO */
+.university-header {
+  background: linear-gradient(35deg, var(--primary) 0%, #003cff 100%);
+  color: rgb(45, 34, 193);
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.university-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.university-header .subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.card:hover {
+  box-shadow: 0 12px 24px rgba(0,0,0,.12);
+}
+
+h1, h2, h3, h4 {
+  color: var(--p);
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+input, textarea, button, select {
+  width: 100%;
+  padding: 15px;
+  margin: 8px 0;
+  border: 1px solid #d1d5db;
+  border-radius: var(--r);
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--p);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+button {
+  background: var(--p);
+  color: var(--b);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  width: auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  background: var(--s);
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: var(--r);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.chat-box {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #d1d5db;
+  border-radius: var(--r);
+  padding: 10px;
+  background: #f3f4f6;
+  margin-bottom: 10px;
+}
+.msg {
+  margin: 4px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  animation: messageAppear 0.3s ease;
+}
+
+@keyframes messageAppear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.msg.own {
+  background: var(--p);
+  color: white;
+  margin-left: auto;
+}
+
+.msg.other {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* ESTILOS MEJORADOS DEL DASHBOARD */
+.header {
+  background: var(--b);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--p);
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--p);
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--p);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.notification-bell {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--e);
+  border-radius: 50%;
+  display: none;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--p);
+}
+.user-welcome {
+  font-size: 1.2em;
+  color: var(--p);
+  margin-bottom: 10px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.stat-card {
+  background: var(--s);
+  padding: 20px;
+  border-radius: var(--r);
+  text-align: center;
+  transition: var(--transition);
+  border-left: 4px solid var(--p);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--p);
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.grid-4, .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.card-modulo {
+  background: var(--s);
+  padding: 25px;
+  border-radius: var(--r);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  border-left: 4px solid var(--p);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-modulo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(37, 99, 235, 0.05), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.card-modulo:hover::before {
+  opacity: 1;
+}
+
+.card-modulo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.15);
+}
+
+.card-modulo h3 {
+  margin-top: 0;
+  color: var(--p);
+}
+
+.card-modulo .icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.badge {
+  background: var(--e);
+  color: white;
+  border-radius: 50%;
+  padding: 3px 10px;
+  font-size: 12px;
+  display: none;
+  margin-left: 5px;
+}
+
+.evento-card {
+  background: white;
+  border-left: 4px solid var(--a);
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: var(--r);
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  transition: var(--transition);
+  animation: cardAppear 0.5s ease;
+}
+
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.evento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.evento-card h4 {
+  margin: 0 0 10px 0;
+  color: var(--p);
+}
+
+.evento-meta {
+  font-size: .9em;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.evento-acciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-only {
+  border-left: 4px solid var(--e);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.nav-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.nav-tab:hover {
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.nav-tab.active {
+  border-bottom: 3px solid var(--p);
+  font-weight: 600;
+  color: var(--p);
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d1d5db;
+  border-radius: var(--r);
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--p);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--p);
+  color: white;
+  border: none;
+  border-radius: var(--r);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary {
+  background: var(--p);
+}
+
+.btn-success {
+  background: var(--a);
+}
+
+.btn-danger {
+  background: var(--e);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--r);
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #6b7280;
+  transition: var(--transition);
+}
+
+.close:hover {
+  color: var(--e);
+}
+
+.stagger-animation > * {
+  animation: stagger 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes stagger {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* 🌙 BOTÓN FLOTANTE DE CAMBIO DE TEMA */
+#toggle-theme {
+  position: fixed;
+  bottom: 35px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: var(--p);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: var(--transition);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#toggle-theme:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+/* 🌙 DARK MODE */
+body.dark-mode {
+  background: linear-gradient(to right, #000000, #352cac);
+  color: #e5e7eb;
+}
+
+body.dark-mode .card {
+  background: #1f2937;
+  color: #f3f4f6;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .user-welcome {
+  color: #60a5fa;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode .chat-box,
+body.dark-mode select {
+  background: #111827;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+body.dark-mode button {
+  background: #2563eb;
+  color: #f9fafb;
+}
+body.dark-mode button:hover {
+  background: #1d4ed8;
+}
+
+body.dark-mode .btn-secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .btn-secondary:hover {
+  background: #4b5563;
+}
+
+body.dark-mode li {
+  background: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .card-modulo {
+  background: #111827;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 4px 12px rgba(0,0,0,.6);
+}
+body.dark-mode .card-modulo:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,.8);
+}
+
+body.dark-mode .evento-card {
+  background: #1f2937;
+  border-left: 4px solid #10b981;
+  color: #f9fafb;
+}
+
+body.dark-mode .evento-meta {
+  color: #9ca3af;
+}
+
+body.dark-mode .nav-tabs {
+  border-bottom: 1px solid #374151;
+}
+body.dark-mode .nav-tab {
+  color: #d1d5db;
+}
+body.dark-mode .nav-tab.active {
+  border-bottom: 3px solid #60a5fa;
+  color: #60a5fa;
+}
+
+body.dark-mode .stat-card {
+  background: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .header {
+  background: #1f2937;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .modal-content {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+body.dark-mode .close {
+  color: #9ca3af;
+}
+
+body.dark-mode .close:hover {
+  color: #f87171;
+}
+
+@media (max-width: 768px) {
+  .grid-4, .grid-3, .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav-tabs {
+    flex-direction: column;
+  }
+  .nav-tab {
+    text-align: center;
+  }
+  .card {
+    margin: 20px auto;
+    padding: 20px;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .user-menu {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Animaciones adicionales */
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Mejoras visuales para elementos específicos */
+.glow {
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+.glow:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--a);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.user-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e5e7eb;
+  transition: var(--transition);
+}
+
+.user-item:hover {
+  background: #f9fafb;
+}
+
+body.dark-mode .user-item {
+  border-bottom: 1px solid #374151;
+}
+
+body.dark-mode .user-item:hover {
+  background: #111827;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.chart-container {
+  background: white;
+  border-radius: var(--r);
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+body.dark-mode .chart-container {
+  background: #1f2937;
+}
+
+  </style>
+</head>
+<body>
+<!-- PÁGINA DE LOGIN -->
+<section id="loginPage" class="page active">
+  <div class="university-header">
+    <h1>🏫 CampusConnect</h1>
+    <p class="subtitle">Universidad del Sur - Plataforma de Comunidad Estudiantil</p>
+  </div>
+  
+  <div class="card">
+    <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary);">Acceso a la Plataforma</h2>
+    <p style="text-align: center; margin-bottom: 2rem; color: #6b7280;">
+      Utiliza tus credenciales institucionales para acceder
+    </p>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Correo Institucional</label>
+        <input id="email" type="email" class="form-input" placeholder="usuario@universidaddelsur.edu.bo" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input id="password" type="password" class="form-input" placeholder="Tu contraseña universitaria" required>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        🚀 Iniciar Sesión
+      </button>
+    </form>
+    
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+      <p style="color: #6b7280; font-size: 0.9rem;">
+        ¿Problemas para acceder? Contacta al departamento de TI de la universidad
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTÓN FLOTANTE DE CAMBIO DE TEMA -->
+<button id="toggle-theme">🌙</button>
+
+<!-- DASHBOARD MEJORADO -->
+<section id="dashPage" class="page">
+  <!-- HEADER MODERNO -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo">CampusConnect</div>
+      <div class="user-menu">
+        <div class="user-info">
+          <div class="user-name" id="userName">Usuario</div>
+          <div class="user-email" id="userEmail">email@universidad.edu.bo</div>
+        </div>
+        <div class="avatar" id="userAvatar">U</div>
+        <div class="notification-bell" onclick="mostrarNotificaciones()">
+          🔔
+          <span class="notification-dot" id="notificationDot"></span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- DASHBOARD HEADER MEJORADO -->
+    <div class="dashboard-header">
+      <h1>¡Bienvenido! 👋</h1>
+      <div class="user-welcome" id="userWelcome">Cargando tu dashboard...</div>
+      <p>Tu centro de conexión universitaria</p>
+      
+      <!-- STATS GRID NUEVO -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number" id="statEvents">0</span>
+          <span class="stat-label">Eventos Activos</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="statGroups">0</span>
+          <span class="stat-label">Mis Grupos</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="statNotifications">0</span>
+          <span class="stat-label">Notificaciones</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="statQuestions">0</span>
+          <span class="stat-label">Preguntas</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navegación por pestañas -->
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="mostrarTab('inicio')">🏠 Inicio</div>
+      <div class="nav-tab" onclick="mostrarTab('eventos')">📅 Eventos</div>
+      <div class="nav-tab" onclick="mostrarTab('grupos')">👥 Mis Grupos</div>
+      <div class="nav-tab" onclick="mostrarTab('foro')">💬 Foro</div>
+      <div class="nav-tab" id="adminTab" onclick="mostrarTab('admin')">⚙️ Administración</div>
+    </div>
+    
+    <!-- Contenido de la pestaña Inicio -->
+    <div id="tab-inicio" class="tab-content active">
+      <div class="grid-4">
+        <div class="card-modulo card-hover" onclick="mostrarTab('eventos')">
+          <div class="icon">📅</div>
+          <h3>Eventos Universitarios</h3>
+          <p>Consulta los próximos eventos y actividades</p>
+          <span id="badgeEventos" class="badge">0</span>
+        </div>
+        
+        <div class="card-modulo card-hover" onclick="mostrarGrupos()">
+          <div class="icon">👥</div>
+          <h3>Grupos de Estudio</h3>
+          <p>Únete o crea grupos de estudio</p>
+          <span id="badgeGrupos" class="badge">0</span>
+        </div>
+        
+        <div class="card-modulo card-hover" onclick="mostrarTab('foro')">
+          <div class="icon">💬</div>
+          <h3>Foro de Dudas</h3>
+          <p>Pregunta y responde dudas de la comunidad</p>
+        </div>
+        
+        <div class="card-modulo card-hover" onclick="mostrarNotificaciones()">
+          <div class="icon">🔔</div>
+          <h3>Notificaciones</h3>
+          <p>Avisos importantes de la universidad</p>
+          <span id="badgeNotificaciones" class="badge">0</span>
+        </div>
+      </div>
+      
+      <h2 style="margin: 2rem 0 1rem 0;">📊 Actividad Reciente</h2>
+      <div id="actividadReciente" class="stagger-animation"></div>
+    </div>
+    
+    <!-- Contenido de la pestaña Eventos -->
+    <div id="tab-eventos" class="tab-content">
+      <div class="card">
+        <h2>📅 Eventos Universitarios</h2>
+        
+        <div id="adminPanel" class="hidden">
+          <div class="form-group">
+            <h3>🎯 Crear Nuevo Evento (Solo administradores)</h3>
+            <form id="crearEventoForm">
+              <div class="form-group">
+                <label class="form-label">Título del evento</label>
+                <input type="text" id="tituloEvento" class="form-input" placeholder="Ej: Conferencia de Inteligencia Artificial" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea id="descEvento" class="form-textarea" placeholder="Describe el evento..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Fecha y hora</label>
+                <input type="datetime-local" id="fechaEvento" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lugar</label>
+                <input type="text" id="lugarEvento" class="form-input" placeholder="Ej: Auditorio Principal" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tipo de evento</label>
+                <select id="tipoEvento" class="form-select">
+                  <option value="academico">🎓 Académico</option>
+                  <option value="cultural">🎭 Cultural</option>
+                  <option value="deportivo">⚽ Deportivo</option>
+                  <option value="social">🎉 Social</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">🚀 Publicar Evento</button>
+            </form>
+          </div>
+        </div>
+        
+        <h3>🔮 Próximos Eventos</h3>
+        <div id="filtrosEventos" class="form-group">
+          <label class="form-label">Filtrar por tipo:</label>
+          <select id="filtroTipo" class="form-select" onchange="filtrarEventos()">
+            <option value="todos">📋 Todos los eventos</option>
+            <option value="academico">🎓 Académicos</option>
+            <option value="cultural">🎭 Culturales</option>
+            <option value="deportivo">⚽ Deportivos</option>
+            <option value="social">🎉 Sociales</option>
+          </select>
+        </div>
+        
+        <div id="listaEventos" class="stagger-animation"></div>
+      </div>
+    </div>
+    
+    <!-- Contenido de la pestaña Grupos -->
+    <div id="tab-grupos" class="tab-content">
+      <div class="card">
+        <h2>👥 Mis Grupos de Estudio</h2>
+        <div id="misGrupos" class="stagger-animation"></div>
+        <div style="text-align: center; margin-top: 2rem;">
+          <button onclick="mostrarGrupos()" class="btn btn-primary">🔍 Ver todos los grupos</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contenido de la pestaña Foro -->
+    <div id="tab-foro" class="tab-content">
+      <div class="card">
+        <h2>💬 Foro de la Comunidad Universitaria</h2>
+        <div class="card-modulo card-hover glow" onclick="abrirModalNuevaPregunta()" style="cursor: pointer;">
+          <div class="icon">➕</div>
+          <h3>Hacer una pregunta</h3>
+          <p>Comparte tus dudas con la comunidad universitaria</p>
+        </div>
+        
+        <h3>📝 Preguntas Recientes</h3>
+        <div id="listaPreguntas" class="stagger-animation"></div>
+      </div>
+    </div>
+
+    <!-- Panel de Administración -->
+    <div id="tab-admin" class="tab-content">
+      <div class="card">
+        <h2>⚙️ Panel de Administración</h2>
+        <div class="grid-3">
+          <div class="card-modulo card-hover" onclick="SistemaAlmacenamiento.hacerBackup()">
+            <div class="icon">💾</div>
+            <h3>Backup</h3>
+            <p>Descargar copia de seguridad</p>
+          </div>
+          <div class="card-modulo card-hover" onclick="mostrarEstadisticas()">
+            <div class="icon">📊</div>
+            <h3>Estadísticas</h3>
+            <p>Ver métricas de uso</p>
+          </div>
+          <div class="card-modulo card-hover" onclick="gestionarUsuarios()">
+            <div class="icon">👥</div>
+            <h3>Usuarios</h3>
+            <p>Gestionar usuarios</p>
+          </div>
+        </div>
+        
+        <!-- Estadísticas detalladas -->
+        <div id="estadisticasDetalladas" class="hidden" style="margin-top: 30px;">
+          <h3>📊 Estadísticas Detalladas</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-number" id="totalUsuarios">0</span>
+              <span class="stat-label">Usuarios Totales</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="totalEventos">0</span>
+              <span class="stat-label">Eventos Creados</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="totalGrupos">0</span>
+              <span class="stat-label">Grupos Activos</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="totalPreguntas">0</span>
+              <span class="stat-label">Preguntas en Foro</span>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <h4>Actividad por Categoría</h4>
+            <div id="graficoActividad"></div>
+          </div>
+        </div>
+        
+        <!-- Gestión de usuarios -->
+        <div id="gestionUsuarios" class="hidden" style="margin-top: 30px;">
+          <h3>👥 Gestión de Usuarios</h3>
+          <div class="user-list" id="listaUsuarios"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 3rem; text-align: center; padding: 2rem; border-top: 1px solid #e5e7eb;">
+      <button onclick="logout()" class="btn btn-secondary">🚪 Cerrar Sesión</button>
+    </div>
+  </div>
+</section>
+
+<!-- GRUPOS (sección existente) -->
+<section id="gruposPage" class="page">
+  <div class="card">
+    <h1>Grupos de Estudio</h1>
+    <h2>Crear grupo</h2>
+    <form id="crearGrupoForm">
+      <input id="nombreGrupo" placeholder="Nombre" required/>
+      <input id="temaGrupo" placeholder="Tema" required/>
+      <textarea id="descGrupo" placeholder="Descripción" required></textarea>
+      <label><input id="privado" type="checkbox"> Privado</label>
+      <button>Crear</button>
+    </form>
+    <h2>Buscar</h2>
+    <input id="buscar" placeholder="Nombre o tema" oninput="renderGrupos()">
+    <ul id="listaGrupos"></ul>
+    <button class="btn-secondary" onclick="mostrarDash()">Volver</button>
+  </div>
+</section>
+
+<!-- DENTRO DEL GRUPO -->
+<section id="interiorPage" class="page">
+  <div class="card">
+    <h1 id="tituloInterior"></h1>
+    <p id="descInterior"></p>
+    <h2>Miembros</h2>
+    <ul id="listaMiembros"></ul>
+    <h2>Chat</h2>
+    <div id="chat" class="chat-box"></div>
+    <form id="chatForm">
+      <input id="chatInput" placeholder="Escribe un mensaje" required/>
+      <button>Enviar</button>
+    </form>
+    <button class="btn-secondary" onclick="salirGrupo()">Volver a Grupos</button>
+  </div>
+</section>
+
+<!-- Modal para nueva pregunta -->
+<div id="modalPregunta" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalNuevaPregunta()">&times;</span>
+    <h3>Nueva Pregunta</h3>
+    <form id="nuevaPreguntaForm">
+      <input type="text" id="tituloPregunta" placeholder="Título de tu pregunta" required>
+      <textarea id="cuerpoPregunta" placeholder="Describe tu pregunta en detalle..." rows="5" required></textarea>
+      <select id="categoriaPregunta">
+        <option value="general">General</option>
+        <option value="academico">Académico</option>
+        <option value="administrativo">Administrativo</option>
+        <option value="tecnologico">Tecnológico</option>
+      </select>
+      <button type="submit">Publicar Pregunta</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para notificaciones -->
+<div id="modalNotificaciones" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalNotificaciones()">&times;</span>
+    <h3>🔔 Notificaciones</h3>
+    <div id="listaNotificaciones"></div>
+  </div>
+</div>
+
+<script>
+// --- CONFIGURACIÓN INICIAL ---
+const $ = q => document.querySelector(q);
+function cambiar(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));p.classList.add('active');}
+function guardar(key,data){localStorage.setItem(key,JSON.stringify(data))}
+function cargar(key,def=[]){return JSON.parse(localStorage.getItem(key))||def}
+
+// Datos globales
+let eventos = cargar('eventos', []);
+let foroPreguntas = cargar('foroPreguntas', []);
+let notificaciones = cargar('notificaciones', []);
+const grupos=cargar('grupos', []);
+const memb=cargar('membresias',{});
+const chats=cargar('chats',{});
+
+// --- LOGIN ---
+$('#loginForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const em=$('#email').value.trim();
+  const pass=$('#password').value;
+  
+  // CORREGIDO: Validar con @universidaddelsur.edu.bo
+  if(!em.endsWith('@universidaddelsur.edu.bo'))return Swal.fire('Correo inválido','Debes usar tu correo institucional (@universidaddelsur.edu.bo)','error');
+  if(!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pass))return Swal.fire('Contraseña débil','Mín 8 chars, 1 mayúsc, 1 número y 1 símbolo','error');
+  
+  localStorage.setItem('user',em);
+  mostrarDash();
+});
+
+// --- NAVEGACIÓN PRINCIPAL ---
+function mostrarDash(){
+  cambiar($('#dashPage'));
+  inicializarDashboard();
+}
+function mostrarGrupos(){cambiar($('#gruposPage'));renderGrupos()}
+function logout(){localStorage.clear();location.reload()}
+
+function inicializarDashboard() {
+  const userEmail = localStorage.getItem('user');
+  if (!userEmail) {
+    window.location.reload();
+    return;
+  }
+  
+  $('#userWelcome').textContent = `Hola, ${userEmail.split('@')[0]}`;
+  
+  // Verificar si es administrador
+  if (userEmail.endsWith('@universidaddelsur.edu.bo') && (userEmail.includes('admin') || userEmail.includes('director'))) {
+    $('#adminPanel').classList.remove('hidden');
+    $('#adminTab').classList.remove('hidden');
+  } else {
+    $('#adminPanel').classList.add('hidden');
+    $('#adminTab').classList.add('hidden');
+  }
+  
+  // Cargar datos del dashboard
+  cargarEventos();
+  cargarActividadReciente();
+  cargarMisGrupos();
+  cargarPreguntasForo();
+  actualizarBadges();
+  actualizarUserInfo();
+  actualizarStats();
+  setInterval(actualizarStats, 30000);
+}
+
+function actualizarStats() {
+    const userEmail = localStorage.getItem('user');
+    
+    // Estadísticas de eventos
+    const eventosProximos = eventos.filter(e => new Date(e.fecha) > new Date()).length;
+    $('#statEvents').textContent = eventosProximos;
+    
+    // Estadísticas de grupos
+    const misGrupos = grupos.filter(g => 
+        memb[grupos.indexOf(g)]?.includes(userEmail)
+    ).length;
+    $('#statGroups').textContent = misGrupos;
+    
+    // Estadísticas de notificaciones
+    const notificacionesNoLeidas = notificaciones.filter(n => !n.leida).length;
+    $('#statNotifications').textContent = notificacionesNoLeidas;
+    
+    // Estadísticas de preguntas
+    $('#statQuestions').textContent = foroPreguntas.length;
+}
+
+function actualizarUserInfo() {
+    const userEmail = localStorage.getItem('user');
+    const userName = userEmail.split('@')[0];
+    
+    $('#userName').textContent = userName;
+    $('#userEmail').textContent = userEmail;
+    $('#userAvatar').textContent = userName.charAt(0).toUpperCase();
+    
+    // Actualizar badge de notificaciones
+    const notificacionesNoLeidas = notificaciones.filter(n => !n.leida).length;
+    const notificationDot = $('#notificationDot');
+    if (notificacionesNoLeidas > 0) {
+        notificationDot.style.display = 'block';
+    } else {
+        notificationDot.style.display = 'none';
+    }
+}
+
+function crearPreguntaForo(e) {
+  e.preventDefault();
+  
+  const titulo = $('#tituloPregunta').value;
+  const cuerpo = $('#cuerpoPregunta').value;
+  const categoria = $('#categoriaPregunta').value;
+  const autor = localStorage.getItem('user');
+  
+  if (!titulo || !cuerpo) {
+    Swal.fire('Error', 'Por favor completa todos los campos', 'error');
+    return;
+  }
+  
+  const nuevaPregunta = {
+    id: Date.now().toString(),
+    titulo,
+    cuerpo,
+    autor,
+    categoria,
+    fecha: new Date().toISOString(),
+    respuestas: [],
+    resuelta: false
+  };
+  
+  foroPreguntas.push(nuevaPregunta);
+  guardar('foroPreguntas', foroPreguntas);
+  
+  Swal.fire('Éxito', 'Pregunta publicada correctamente', 'success');
+  cerrarModalNuevaPregunta();
+  cargarPreguntasForo();
+  actualizarBadges();
+}
+
+// Configurar formularios
+$('#crearEventoForm').addEventListener('submit', crearEvento);
+$('#nuevaPreguntaForm').addEventListener('submit', crearPreguntaForo);
+
+// Funciones de navegación del dashboard
+function mostrarTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+  
+  $('#tab-'+tabName).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    if (tab.textContent.toLowerCase().includes(tabName)) tab.classList.add('active');
+  });
+  
+  // Si es la pestaña de admin, cargar datos
+  if (tabName === 'admin') {
+    cargarEstadisticasAdmin();
+  }
+}
+
+// Funciones de eventos
+function cargarEventos() {
+  const listaEventos = $('#listaEventos');
+  listaEventos.innerHTML = '';
+  
+  if (eventos.length === 0) {
+    listaEventos.innerHTML = '<p>No hay eventos programados en este momento.</p>';
+    return;
+  }
+  
+  eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  
+  eventos.forEach(evento => {
+    const eventoElement = document.createElement('div');
+    eventoElement.className = 'evento-card';
+    eventoElement.innerHTML = `
+      <h4>${evento.titulo}</h4>
+      <div class="evento-meta">
+        <strong>Fecha:</strong> ${new Date(evento.fecha).toLocaleString()} | 
+        <strong>Lugar:</strong> ${evento.lugar} | 
+        <strong>Tipo:</strong> ${evento.tipo}
+      </div>
+      <p>${evento.descripcion}</p>
+      <div class="evento-acciones">
+        <button class="btn btn-small" onclick="asistirEvento('${evento.id}')">Asistiré</button>
+        <button class="btn-secondary btn-small" onclick="compartirEvento('${evento.id}')">Compartir</button>
+      </div>
+    `;
+    listaEventos.appendChild(eventoElement);
+  });
+}
+
+function crearEvento(e) {
+  e.preventDefault();
+  
+  const titulo = $('#tituloEvento').value;
+  const descripcion = $('#descEvento').value;
+  const fecha = $('#fechaEvento').value;
+  const lugar = $('#lugarEvento').value;
+  const tipo = $('#tipoEvento').value;
+  
+  const nuevoEvento = {
+    id: Date.now().toString(),
+    titulo,
+    descripcion,
+    fecha,
+    lugar,
+    tipo,
+    creador: localStorage.getItem('user'),
+    asistentes: []
+  };
+  
+  eventos.push(nuevoEvento);
+  guardar('eventos', eventos);
+  
+  Swal.fire('Éxito', 'Evento publicado correctamente', 'success');
+  $('#crearEventoForm').reset();
+  cargarEventos();
+  actualizarBadges();
+}
+
+function asistirEvento(id) {
+  const evento = eventos.find(e => e.id === id);
+  if (evento) {
+    const user = localStorage.getItem('user');
+    if (!evento.asistentes.includes(user)) {
+      evento.asistentes.push(user);
+      guardar('eventos', eventos);
+      Swal.fire('Confirmado', 'Has confirmado tu asistencia al evento', 'success');
+    } else {
+      Swal.fire('Ya confirmado', 'Ya habías confirmado tu asistencia a este evento', 'info');
+    }
+  }
+}
+
+function compartirEvento(id) {
+  const evento = eventos.find(e => e.id === id);
+  if (evento) {
+    const url = `${window.location.origin}${window.location.pathname}?evento=${id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      Swal.fire('Enlace copiado', 'El enlace al evento ha sido copiado al portapapeles', 'success');
+    });
+  }
+}
+
+function filtrarEventos() {
+  const filtro = $('#filtroTipo').value;
+  const eventosFiltrados = filtro === 'todos' 
+    ? eventos 
+    : eventos.filter(e => e.tipo === filtro);
+  
+  const listaEventos = $('#listaEventos');
+  listaEventos.innerHTML = '';
+  
+  if (eventosFiltrados.length === 0) {
+    listaEventos.innerHTML = '<p>No hay eventos de este tipo programados.</p>';
+    return;
+  }
+  
+  eventosFiltrados.forEach(evento => {
+    const eventoElement = document.createElement('div');
+    eventoElement.className = 'evento-card';
+    eventoElement.innerHTML = `
+      <h4>${evento.titulo}</h4>
+      <div class="evento-meta">
+        <strong>Fecha:</strong> ${new Date(evento.fecha).toLocaleString()} | 
+        <strong>Lugar:</strong> ${evento.lugar} | 
+        <strong>Tipo:</strong> ${evento.tipo}
+      </div>
+      <p>${evento.descripcion}</p>
+      <div class="evento-acciones">
+        <button class="btn btn-small" onclick="asistirEvento('${evento.id}')">Asistiré</button>
+        <button class="btn-secondary btn-small" onclick="compartirEvento('${evento.id}')">Compartir</button>
+      </div>
+    `;
+    listaEventos.appendChild(eventoElement);
+  });
+}
+
+// Funciones de grupos
+$('#crearGrupoForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const g={
+    id: Date.now().toString(),
+    nombre:$('#nombreGrupo').value.trim(),
+    tema:$('#temaGrupo').value.trim(),
+    desc:$('#descGrupo').value.trim(),
+    privado:$('#privado').checked,
+    creador:localStorage.getItem('user')
+  };
+  grupos.push(g);
+  guardar('grupos',grupos);
+  e.target.reset();
+  renderGrupos();
+  Swal.fire('Grupo creado','','success');
+});
+
+function renderGrupos(){
+  const b=$('#buscar').value.toLowerCase();
+  const lista=$('#listaGrupos');
+  lista.innerHTML='';
+  const u=localStorage.getItem('user');
+  
+  grupos.forEach((g,i)=>{
+    if(b&&!g.nombre.toLowerCase().includes(b)&&!g.tema.toLowerCase().includes(b))return;
+    const esMi=(memb[g.id]||[]).includes(u);
+    const li=document.createElement('li');
+    li.innerHTML=`
+      <div><strong>${g.nombre}</strong> - ${g.tema}<br><small>${g.desc}</small><br><em>${g.privado?'Privado':'Público'}</em></div>
+      <div>${esMi?`<button onclick="ingresarGrupo('${g.id}')">Ingresar</button>`:`<button onclick="unirse('${g.id}')">Unirse</button>`}${g.creador===u?`<button class="btn-danger btn-small" onclick="eliminarGrupo('${g.id}')">Eliminar</button>`:''}</div>`;
+    lista.appendChild(li);
+  });
+}
+
+function unirse(id){
+  const u=localStorage.getItem('user');
+  const grupo = grupos.find(g => g.id === id);
+  
+  if(!memb[id]) memb[id] = [];
+  if(memb[id].includes(u)) return Swal.fire('Ya eres miembro','','info');
+  
+  memb[id].push(u);
+  guardar('membresias',memb);
+  renderGrupos();
+  Swal.fire('¡Bienvenido!','Ahora formas parte del grupo','success');
+}
+
+function ingresarGrupo(id){
+  const g=grupos.find(grupo => grupo.id === id);
+  $('#tituloInterior').textContent=g.nombre;
+  $('#descInterior').textContent=g.desc;
+  localStorage.setItem('actual',id);
+  cambiar($('#interiorPage'));
+  renderInterior();
+}
+
+function renderInterior() {
+  const id = localStorage.getItem('actual');
+  const g = grupos.find(grupo => grupo.id === id);
+  const u = localStorage.getItem('user');
+  
+  // Renderizar miembros
+  const listaMiembros = $('#listaMiembros');
+  listaMiembros.innerHTML = '';
+  
+  if (memb[id] && memb[id].length > 0) {
+    memb[id].forEach(miembro => {
+      const li = document.createElement('li');
+      li.textContent = miembro;
+      if (miembro === g.creador) {
+        li.innerHTML += ' 👑';
+      }
+      listaMiembros.appendChild(li);
+    });
+  } else {
+    listaMiembros.innerHTML = '<li>No hay miembros en este grupo</li>';
+  }
+  
+  // Renderizar chat
+  const chat = $('#chat');
+  chat.innerHTML = '';
+  
+  if (chats[id] && chats[id].length > 0) {
+    chats[id].forEach(mensaje => {
+      const div = document.createElement('div');
+      div.className = `msg ${mensaje.autor === u ? 'own' : 'other'}`;
+      div.innerHTML = `<strong>${mensaje.autor === u ? 'Tú' : mensaje.autor.split('@')[0]}:</strong> ${mensaje.texto}`;
+      chat.appendChild(div);
+    });
+  }
+  
+  chat.scrollTop = chat.scrollHeight;
+}
+
+$('#chatForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const id = localStorage.getItem('actual');
+  const texto = $('#chatInput').value.trim();
+  const u = localStorage.getItem('user');
+  
+  if (!texto) return;
+  
+  if (!chats[id]) chats[id] = [];
+  
+  chats[id].push({
+    autor: u,
+    texto: texto,
+    fecha: new Date().toISOString()
+  });
+  
+  guardar('chats', chats);
+  $('#chatInput').value = '';
+  renderInterior();
+});
+
+function salirGrupo() {
+  cambiar($('#gruposPage'));
+  renderGrupos();
+}
+
+function eliminarGrupo(id) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Esta acción no se puede deshacer",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const index = grupos.findIndex(g => g.id === id);
+      if (index !== -1) {
+        grupos.splice(index, 1);
+        guardar('grupos', grupos);
+        delete memb[id];
+        guardar('membresias', memb);
+        delete chats[id];
+        guardar('chats', chats);
+        renderGrupos();
+        Swal.fire('Eliminado', 'El grupo ha sido eliminado', 'success');
+      }
+    }
+  });
+}
+
+// Funciones del foro
+function cargarPreguntasForo() {
+  const contenedor = $('#listaPreguntas');
+  contenedor.innerHTML = '';
+  
+  if (foroPreguntas.length === 0) {
+    contenedor.innerHTML = '<p>Aún no hay preguntas en el foro.</p>';
+    return;
+  }
+  
+  // Ordenar por fecha (más recientes primero)
+  foroPreguntas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  
+  foroPreguntas.slice(0, 10).forEach(pregunta => {
+    const elemento = document.createElement('div');
+    elemento.className = 'evento-card';
+    elemento.innerHTML = `
+      <h4>${pregunta.titulo}</h4>
+      <div class="evento-meta">
+        <strong>Por:</strong> ${pregunta.autor} | 
+        <strong>Fecha:</strong> ${new Date(pregunta.fecha).toLocaleString()} | 
+        <strong>Categoría:</strong> ${pregunta.categoria}
+      </div>
+      <p>${pregunta.cuerpo.substring(0, 100)}...</p>
+      <div class="evento-acciones">
+        <button class="btn btn-small" onclick="verPregunta('${pregunta.id}')">Ver Respuestas</button>
+        <span>${pregunta.respuestas.length} respuestas</span>
+        ${pregunta.resuelta ? '<span style="color:green;">✓ Resuelta</span>' : ''}
+      </div>
+    `;
+    contenedor.appendChild(elemento);
+  });
+}
+
+function verPregunta(id) {
+  // Implementar vista detallada de pregunta
+  Swal.fire('Funcionalidad en desarrollo', 'La vista detallada de preguntas estará disponible en la próxima actualización', 'info');
+}
+
+// Funciones de notificaciones
+function mostrarNotificaciones() {
+  $('#modalNotificaciones').classList.remove('hidden');
+  cargarNotificaciones();
+}
+
+function cerrarModalNotificaciones() {
+  $('#modalNotificaciones').classList.add('hidden');
+}
+
+function cargarNotificaciones() {
+  const lista = $('#listaNotificaciones');
+  lista.innerHTML = '';
+  
+  if (notificaciones.length === 0) {
+    lista.innerHTML = '<p>No tienes notificaciones.</p>';
+    return;
+  }
+  
+  // Ordenar por fecha (más recientes primero)
+  notificaciones.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  
+  notificaciones.forEach(notificacion => {
+    const elemento = document.createElement('div');
+    elemento.className = `evento-card ${notificacion.leida ? '' : 'glow'}`;
+    elemento.innerHTML = `
+      <h4>${notificacion.titulo}</h4>
+      <p>${notificacion.mensaje}</p>
+      <div class="evento-meta">
+        <strong>Fecha:</strong> ${new Date(notificacion.fecha).toLocaleString()}
+      </div>
+      <div class="evento-acciones">
+        ${!notificacion.leida ? `<button class="btn btn-small" onclick="marcarLeida('${notificacion.id}')">Marcar como leída</button>` : ''}
+        <button class="btn-secondary btn-small" onclick="eliminarNotificacion('${notificacion.id}')">Eliminar</button>
+      </div>
+    `;
+    lista.appendChild(elemento);
+  });
+}
+
+function marcarLeida(id) {
+  const notificacion = notificaciones.find(n => n.id === id);
+  if (notificacion) {
+    notificacion.leida = true;
+    guardar('notificaciones', notificaciones);
+    cargarNotificaciones();
+    actualizarBadges();
+  }
+}
+
+function eliminarNotificacion(id) {
+  notificaciones = notificaciones.filter(n => n.id !== id);
+  guardar('notificaciones', notificaciones);
+  cargarNotificaciones();
+  actualizarBadges();
+}
+
+// Funciones del dashboard
+function cargarActividadReciente() {
+  const contenedor = $('#actividadReciente');
+  contenedor.innerHTML = '';
+  
+  // Combinar eventos y preguntas recientes
+  const actividad = [
+    ...eventos.filter(e => new Date(e.fecha) > new Date()).slice(0, 2).map(e => ({
+      tipo: 'evento',
+      titulo: e.titulo,
+      fecha: e.fecha,
+      descripcion: `Nuevo evento: ${e.titulo}`,
+      icono: '📅'
+    })),
+    ...foroPreguntas.slice(0, 3).map(p => ({
+      tipo: 'pregunta',
+      titulo: p.titulo,
+      fecha: p.fecha,
+      descripcion: `Nueva pregunta: ${p.titulo}`,
+      icono: '💬'
+    }))
+  ];
+  
+  actividad.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  
+  if (actividad.length === 0) {
+    contenedor.innerHTML = '<p>No hay actividad reciente.</p>';
+    return;
+  }
+  
+  actividad.slice(0, 5).forEach(item => {
+    const elemento = document.createElement('div');
+    elemento.className = 'evento-card';
+    elemento.innerHTML = `
+      <h4>${item.icono} ${item.titulo}</h4>
+      <div class="evento-meta">
+        <strong>Fecha:</strong> ${new Date(item.fecha).toLocaleString()}
+      </div>
+      <p>${item.descripcion}</p>
+    `;
+    contenedor.appendChild(elemento);
+  });
+}
+
+function cargarMisGrupos() {
+  const contenedor = $('#misGrupos');
+  const userEmail = localStorage.getItem('user');
+  contenedor.innerHTML = '';
+  
+  const misGrupos = grupos.filter(grupo => 
+    memb[grupo.id]?.includes(userEmail)
+  );
+  
+  if (misGrupos.length === 0) {
+    contenedor.innerHTML = '<p>Aún no formas parte de ningún grupo.</p>';
+    return;
+  }
+  
+  misGrupos.forEach(grupo => {
+    const elemento = document.createElement('div');
+    elemento.className = 'evento-card';
+    elemento.innerHTML = `
+      <h4>${grupo.nombre}</h4>
+      <p><strong>Tema:</strong> ${grupo.tema}</p>
+      <p>${grupo.desc}</p>
+      <div class="evento-acciones">
+        <button class="btn btn-small" onclick="ingresarGrupo('${grupo.id}')">Abrir Grupo</button>
+      </div>
+    `;
+    contenedor.appendChild(elemento);
+  });
+}
+
+function actualizarBadges() {
+  const userEmail = localStorage.getItem('user');
+  
+  // Badge de eventos
+  const eventosProximos = eventos.filter(e => new Date(e.fecha) > new Date());
+  $('#badgeEventos').textContent = eventosProximos.length;
+  $('#badgeEventos').style.display = eventosProximos.length > 0 ? 'inline' : 'none';
+  
+  // Badge de notificaciones
+  const notificacionesNoLeidas = notificaciones.filter(n => !n.leida).length;
+  $('#badgeNotificaciones').textContent = notificacionesNoLeidas;
+  $('#badgeNotificaciones').style.display = notificacionesNoLeidas > 0 ? 'inline' : 'none';
+  
+  // Badge de grupos
+  const misGrupos = grupos.filter(g => 
+    memb[g.id]?.includes(userEmail)
+  );
+  $('#badgeGrupos').textContent = misGrupos.length;
+  $('#badgeGrupos').style.display = misGrupos.length > 0 ? 'inline' : 'none';
+}
+
+function abrirModalNuevaPregunta() {
+  $('#modalPregunta').classList.remove('hidden');
+}
+
+function cerrarModalNuevaPregunta() {
+  $('#modalPregunta').classList.add('hidden');
+  $('#nuevaPreguntaForm').reset();
+}
+
+// Funciones de administración
+function mostrarEstadisticas() {
+  $('#estadisticasDetalladas').classList.remove('hidden');
+  $('#gestionUsuarios').classList.add('hidden');
+  cargarEstadisticasAdmin();
+}
+
+function gestionarUsuarios() {
+  $('#gestionUsuarios').classList.remove('hidden');
+  $('#estadisticasDetalladas').classList.add('hidden');
+  cargarUsuariosAdmin();
+}
+
+function cargarEstadisticasAdmin() {
+  // Obtener usuarios únicos
+  const usuarios = new Set();
+  eventos.forEach(e => usuarios.add(e.creador));
+  foroPreguntas.forEach(p => usuarios.add(p.autor));
+  grupos.forEach(g => usuarios.add(g.creador));
+  Object.values(memb).forEach(miembros => miembros.forEach(m => usuarios.add(m)));
+  
+  $('#totalUsuarios').textContent = usuarios.size;
+  $('#totalEventos').textContent = eventos.length;
+  $('#totalGrupos').textContent = grupos.length;
+  $('#totalPreguntas').textContent = foroPreguntas.length;
+  
+  // Crear gráfico simple de actividad
+  const grafico = $('#graficoActividad');
+  grafico.innerHTML = '';
+  
+  const categorias = {
+    'Eventos Académicos': eventos.filter(e => e.tipo === 'academico').length,
+    'Eventos Culturales': eventos.filter(e => e.tipo === 'cultural').length,
+    'Eventos Deportivos': eventos.filter(e => e.tipo === 'deportivo').length,
+    'Eventos Sociales': eventos.filter(e => e.tipo === 'social').length,
+    'Preguntas en Foro': foroPreguntas.length,
+    'Grupos Activos': grupos.length
+  };
+  
+  const maxVal = Math.max(...Object.values(categorias));
+  
+  Object.entries(categorias).forEach(([categoria, valor]) => {
+    const porcentaje = maxVal > 0 ? (valor / maxVal) * 100 : 0;
+    
+    const contenedor = document.createElement('div');
+    contenedor.style.marginBottom = '15px';
+    
+    const etiqueta = document.createElement('div');
+    etiqueta.style.display = 'flex';
+    etiqueta.style.justifyContent = 'space-between';
+    etiqueta.style.marginBottom = '5px';
+    etiqueta.innerHTML = `<span>${categoria}</span><span>${valor}</span>`;
+    
+    const barra = document.createElement('div');
+    barra.className = 'progress-bar';
+    
+    const relleno = document.createElement('div');
+    relleno.className = 'progress-fill';
+    relleno.style.width = `${porcentaje}%`;
+    
+    barra.appendChild(relleno);
+    contenedor.appendChild(etiqueta);
+    contenedor.appendChild(barra);
+    grafico.appendChild(contenedor);
+  });
+}
+
+function cargarUsuariosAdmin() {
+  const lista = $('#listaUsuarios');
+  lista.innerHTML = '';
+  
+  // Obtener usuarios únicos
+  const usuarios = new Set();
+  eventos.forEach(e => usuarios.add(e.creador));
+  foroPreguntas.forEach(p => usuarios.add(p.autor));
+  grupos.forEach(g => usuarios.add(g.creador));
+  Object.values(memb).forEach(miembros => miembros.forEach(m => usuarios.add(m)));
+  
+  if (usuarios.size === 0) {
+    lista.innerHTML = '<p>No hay usuarios registrados.</p>';
+    return;
+  }
+  
+  Array.from(usuarios).forEach(usuario => {
+    const elemento = document.createElement('div');
+    elemento.className = 'user-item';
+    
+    // Contar actividad del usuario
+    const eventosCreados = eventos.filter(e => e.creador === usuario).length;
+    const preguntasCreadas = foroPreguntas.filter(p => p.autor === usuario).length;
+    const gruposCreados = grupos.filter(g => g.creador === usuario).length;
+    const gruposUnidos = Object.entries(memb).filter(([id, miembros]) => 
+      miembros.includes(usuario)
+    ).length;
+    
+    elemento.innerHTML = `
+      <div>
+        <strong>${usuario}</strong>
+        <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">
+          Eventos: ${eventosCreados} | Preguntas: ${preguntasCreadas} | Grupos: ${gruposCreados} | Miembro en: ${gruposUnidos}
+        </div>
+      </div>
+      <div class="user-actions">
+        <button class="btn-danger btn-small" onclick="eliminarUsuario('${usuario}')">Eliminar</button>
+      </div>
+    `;
+    
+    lista.appendChild(elemento);
+  });
+}
+
+function eliminarUsuario(usuario) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: `Esta acción eliminará todos los datos asociados a ${usuario}`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Eliminar eventos creados por el usuario
+      eventos = eventos.filter(e => e.creador !== usuario);
+      guardar('eventos', eventos);
+      
+      // Eliminar preguntas creadas por el usuario
+      foroPreguntas = foroPreguntas.filter(p => p.autor !== usuario);
+      guardar('foroPreguntas', foroPreguntas);
+      
+      // Eliminar grupos creados por el usuario
+      const gruposAEliminar = grupos.filter(g => g.creador === usuario).map(g => g.id);
+      gruposAEliminar.forEach(id => {
+        delete memb[id];
+        delete chats[id];
+      });
+      grupos = grupos.filter(g => g.creador !== usuario);
+      guardar('grupos', grupos);
+      guardar('membresias', memb);
+      guardar('chats', chats);
+      
+      // Eliminar al usuario de las membresías
+      Object.keys(memb).forEach(id => {
+        if (memb[id].includes(usuario)) {
+          memb[id] = memb[id].filter(m => m !== usuario);
+        }
+      });
+      guardar('membresias', memb);
+      
+      Swal.fire('Eliminado', `Usuario ${usuario} y todos sus datos han sido eliminados`, 'success');
+      cargarUsuariosAdmin();
+      cargarEstadisticasAdmin();
+    }
+  });
+}
+
+// Sistema de almacenamiento
+const SistemaAlmacenamiento = {
+  hacerBackup: function() {
+    const datos = {
+      eventos: eventos,
+      foroPreguntas: foroPreguntas,
+      notificaciones: notificaciones,
+      grupos: grupos,
+      membresias: memb,
+      chats: chats,
+      fechaBackup: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `campusconnect-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    Swal.fire('Backup creado', 'Se ha descargado una copia de seguridad de todos los datos', 'success');
+  }
+};
+
+// Toggle de tema
+const toggleBtn = $('#toggle-theme');
+const body = document.body;
+
+// Cargar tema guardado (si existe)
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark-mode');
+  toggleBtn.textContent = "☀️";
+}
+
+toggleBtn.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+  
+  if (body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark');
+    toggleBtn.textContent = "☀️";
+  } else {
+    localStorage.setItem('theme', 'light');
+    toggleBtn.textContent = "🌙";
+  }
+});
+
+// Cerrar modales al hacer clic fuera
+window.onclick = function(event) {
+  const modalPregunta = $('#modalPregunta');
+  const modalNotificaciones = $('#modalNotificaciones');
+  
+  if (event.target === modalPregunta) cerrarModalNuevaPregunta();
+  if (event.target === modalNotificaciones) cerrarModalNotificaciones();
+}
+
+// Inicializar si ya está logueado
+if(localStorage.getItem('user')) mostrarDash();
+
+// Añadir algunas notificaciones de ejemplo si no existen
+if (notificaciones.length === 0) {
+  notificaciones.push({
+    id: '1',
+    titulo: '¡Bienvenido a CampusConnect!',
+    mensaje: 'Tu cuenta ha sido activada correctamente. Explora todas las funcionalidades de nuestra plataforma.',
+    fecha: new Date().toISOString(),
+    leida: false
+  });
+  
+  notificaciones.push({
+    id: '2',
+    titulo: 'Próximo evento: Conferencia de IA',
+    mensaje: 'No te pierdas la conferencia sobre Inteligencia Artificial este viernes en el auditorio principal.',
+    fecha: new Date(Date.now() - 86400000).toISOString(), // Hace un día
+    leida: false
+  });
+  
+  guardar('notificaciones', notificaciones);
+}
+</script>
+</body>
+</html>
